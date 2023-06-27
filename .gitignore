@@ -21,6 +21,7 @@ config.log
 /.externalToolBuilders/
 /retroarch
 /retroarch_miyoo354
+/retroarch_miyoo283
 /retroarch.cfg
 /retroarch.exe
 /retroarch_debug.exe
