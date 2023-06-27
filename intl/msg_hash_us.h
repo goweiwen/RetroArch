@@ -13903,7 +13903,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MSG_REWINDING,
-   "Rewinding."
+   "<<"
    )
 MSG_HASH(
    MSG_REWIND_UNSUPPORTED,
@@ -13979,7 +13979,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MSG_FAST_FORWARD,
-   "Fast-Forward."
+   ">>"
    )
 MSG_HASH(
    MSG_SLOW_MOTION_REWIND,
