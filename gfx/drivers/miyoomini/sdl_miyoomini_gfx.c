@@ -134,14 +134,14 @@ static void sdl_miyoomini_print_msg(void* data) {
       bool **font_lut         = vid->osd_font->lut;
       uint32_t str_lines      = (uint32_t)((str_len - 1) / OSD_TEXT_LINE_LEN) + 1;
       uint32_t str_counter    = OSD_TEXT_LINE_LEN;
-      const int x_pos_def     = SDL_MIYOOMINI_WIDTH - (FONT_WIDTH_STRIDE * 2);
+      const int x_pos_def     = FONT_WIDTH_STRIDE * 2;
       int x_pos               = x_pos_def;
-      int y_pos               = OSD_TEXT_Y_MARGIN - 4 + (FONT_HEIGHT_STRIDE * 2 * str_lines);
+      int y_pos               = SDL_MIYOOMINI_HEIGHT - OSD_TEXT_Y_MARGIN + 4 - (FONT_HEIGHT_STRIDE * 2 * str_lines);
 
       for (; str_len > 0; str_len--) {
          /* Check for out of bounds x coordinates */
          if (!str_counter--) {
-            x_pos = x_pos_def; y_pos -= (FONT_HEIGHT_STRIDE * 2); str_counter = OSD_TEXT_LINE_LEN;
+            x_pos = x_pos_def; y_pos += (FONT_HEIGHT_STRIDE * 2); str_counter = OSD_TEXT_LINE_LEN;
          }
          /* Deal with spaces first, for efficiency */
          if (*str == ' ') str++;
@@ -164,40 +164,40 @@ static void sdl_miyoomini_print_msg(void* data) {
             symbol_lut = font_lut[symbol];
 
             for (j = 0; j < FONT_HEIGHT; j++) {
-               uint32_t buff_offset = ((y_pos - (j * 2) ) * SDL_MIYOOMINI_WIDTH) + x_pos;
+               uint32_t buff_offset = ((y_pos + (j * 2) ) * SDL_MIYOOMINI_WIDTH) + x_pos;
 
                for (i = 0; i < FONT_WIDTH; i++) {
                   if (*(symbol_lut + i + (j * FONT_WIDTH))) {
-                     uint32_t *screen_buf_ptr = (uint32_t*)screen_buf + buff_offset - (i * 2);
+                     uint32_t *screen_buf_ptr = (uint32_t*)screen_buf + buff_offset + (i * 2);
 
-                     /* Bottom shadow (1) */
-                     screen_buf_ptr[+0] = 0;
-                     screen_buf_ptr[+1] = 0;
+                     /* Text pixel + right shadow (1) */
+                     screen_buf_ptr[+0] = vid->font_colour32;
+                     screen_buf_ptr[+1] = vid->font_colour32;
                      screen_buf_ptr[+2] = 0;
                      screen_buf_ptr[+3] = 0;
 
-                     /* Bottom shadow (2) */
-                     screen_buf_ptr[SDL_MIYOOMINI_WIDTH+0] = 0;
-                     screen_buf_ptr[SDL_MIYOOMINI_WIDTH+1] = 0;
+                     /* Text pixel + right shadow (2) */
+                     screen_buf_ptr[SDL_MIYOOMINI_WIDTH+0] = vid->font_colour32;
+                     screen_buf_ptr[SDL_MIYOOMINI_WIDTH+1] = vid->font_colour32;
                      screen_buf_ptr[SDL_MIYOOMINI_WIDTH+2] = 0;
                      screen_buf_ptr[SDL_MIYOOMINI_WIDTH+3] = 0;
 
-                     /* Text pixel + right shadow (1) */
+                     /* Bottom shadow (1) */
                      screen_buf_ptr[(SDL_MIYOOMINI_WIDTH*2)+0] = 0;
                      screen_buf_ptr[(SDL_MIYOOMINI_WIDTH*2)+1] = 0;
-                     screen_buf_ptr[(SDL_MIYOOMINI_WIDTH*2)+2] = vid->font_colour32;
-                     screen_buf_ptr[(SDL_MIYOOMINI_WIDTH*2)+3] = vid->font_colour32;
+                     screen_buf_ptr[(SDL_MIYOOMINI_WIDTH*2)+2] = 0;
+                     screen_buf_ptr[(SDL_MIYOOMINI_WIDTH*2)+3] = 0;
 
-                     /* Text pixel + right shadow (2) */
+                     /* Bottom shadow (2) */
                      screen_buf_ptr[(SDL_MIYOOMINI_WIDTH*3)+0] = 0;
                      screen_buf_ptr[(SDL_MIYOOMINI_WIDTH*3)+1] = 0;
-                     screen_buf_ptr[(SDL_MIYOOMINI_WIDTH*3)+2] = vid->font_colour32;
-                     screen_buf_ptr[(SDL_MIYOOMINI_WIDTH*3)+3] = vid->font_colour32;
+                     screen_buf_ptr[(SDL_MIYOOMINI_WIDTH*3)+2] = 0;
+                     screen_buf_ptr[(SDL_MIYOOMINI_WIDTH*3)+3] = 0;
                   }
                }
             }
          }
-         x_pos -= FONT_WIDTH_STRIDE * 2;
+         x_pos += FONT_WIDTH_STRIDE * 2;
       }
       vid->msg_count |= (str_lines << 6);
    }
@@ -855,9 +855,7 @@ static bool sdl_miyoomini_gfx_frame(void *data, const void *frame,
       GFX_UpdateRect(vid->screen, vid->video_x, vid->video_y, vid->video_w, vid->video_h);
    } else {
       scale2x2_n16(vid->menuscreen_rgui->pixels, vid->menuscreen->pixels, RGUI_MENU_WIDTH, RGUI_MENU_HEIGHT, 0,0);
-      stOpt.eRotate = E_MI_GFX_ROTATE_180;
       GFX_Flip(vid->menuscreen);
-      stOpt.eRotate = vid->rotate;
    }
    return true;
 }
@@ -932,13 +930,13 @@ static void sdl_miyoomini_gfx_set_rotation(void *data, unsigned rotation) {
    if (unlikely(!vid)) return;
    switch (rotation) {
       case 1:
-         stOpt.eRotate = E_MI_GFX_ROTATE_90; break;
-      case 2:
-         stOpt.eRotate = E_MI_GFX_ROTATE_0; break;
-      case 3:
          stOpt.eRotate = E_MI_GFX_ROTATE_270; break;
-      default:
+      case 2:
          stOpt.eRotate = E_MI_GFX_ROTATE_180; break;
+      case 3:
+         stOpt.eRotate = E_MI_GFX_ROTATE_90; break;
+      default:
+         stOpt.eRotate = E_MI_GFX_ROTATE_0; break;
    }
    if (vid->rotate != stOpt.eRotate) {
       vid->rotate = stOpt.eRotate;
