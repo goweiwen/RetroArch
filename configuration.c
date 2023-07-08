@@ -484,6 +484,8 @@ static const enum audio_driver_enum AUDIO_DEFAULT_DRIVER = AUDIO_CTR;
 static const enum audio_driver_enum AUDIO_DEFAULT_DRIVER = AUDIO_SWITCH;
 #elif (defined(DINGUX_BETA) || defined(MIYOO)) && defined(HAVE_ALSA)
 static const enum audio_driver_enum AUDIO_DEFAULT_DRIVER = AUDIO_ALSA;
+#elif defined(MIYOOMINI)
+static const enum audio_driver_enum AUDIO_DEFAULT_DRIVER = AUDIO_OSS;
 #elif defined(DINGUX) && defined(HAVE_AL)
 static const enum audio_driver_enum AUDIO_DEFAULT_DRIVER = AUDIO_AL;
 #elif defined(HAVE_PULSE)
@@ -530,7 +532,7 @@ static const enum audio_driver_enum AUDIO_DEFAULT_DRIVER = AUDIO_EXT;
 static const enum audio_driver_enum AUDIO_DEFAULT_DRIVER = AUDIO_NULL;
 #endif
 
-#if defined(RS90) || defined(MIYOO)
+#if defined(RS90) || defined(MIYOO) || defined(MIYOOMINI)
 static const enum audio_resampler_driver_enum AUDIO_DEFAULT_RESAMPLER_DRIVER = AUDIO_RESAMPLER_NEAREST;
 #elif defined(PSP) || defined(EMSCRIPTEN)
 static const enum audio_resampler_driver_enum AUDIO_DEFAULT_RESAMPLER_DRIVER = AUDIO_RESAMPLER_CC;
@@ -1947,7 +1949,7 @@ static struct config_bool_setting *populate_settings_bool(
 #ifdef HAVE_CHEEVOS
    SETTING_BOOL("cheevos_enable",               &settings->bools.cheevos_enable, true, DEFAULT_CHEEVOS_ENABLE, false);
    SETTING_BOOL("cheevos_test_unofficial",      &settings->bools.cheevos_test_unofficial, true, false, false);
-   SETTING_BOOL("cheevos_hardcore_mode_enable", &settings->bools.cheevos_hardcore_mode_enable, true, true, false);
+   SETTING_BOOL("cheevos_hardcore_mode_enable", &settings->bools.cheevos_hardcore_mode_enable, true, false, false);
    SETTING_BOOL("cheevos_challenge_indicators", &settings->bools.cheevos_challenge_indicators, true, true, false);
    SETTING_BOOL("cheevos_richpresence_enable",  &settings->bools.cheevos_richpresence_enable, true, true, false);
    SETTING_BOOL("cheevos_unlock_sound_enable",  &settings->bools.cheevos_unlock_sound_enable, true, false, false);
@@ -2913,6 +2915,10 @@ void config_set_defaults(void *data)
       configuration_set_string(settings,
             settings->paths.directory_menu_config,
             g_defaults.dirs[DEFAULT_DIR_MENU_CONFIG]);
+      fill_pathname_join_special(settings->paths.path_rgui_theme_preset,
+            settings->paths.directory_assets,
+            DEFAULT_RGUI_THEME_PRESET,
+            sizeof(settings->paths.path_rgui_theme_preset));
 #if TARGET_OS_IPHONE
       {
          char config_file_path[PATH_MAX_LENGTH];
@@ -2967,6 +2973,27 @@ void config_set_defaults(void *data)
       fill_pathname_expand_special(recording_st->config_dir,
             g_defaults.dirs[DEFAULT_DIR_RECORD_CONFIG],
             sizeof(recording_st->config_dir));
+
+   if (!string_is_empty(g_defaults.dirs[DEFAULT_DIR_CONTENT_FAVORITES]))
+      configuration_set_string(settings,
+            settings->paths.directory_content_favorites,
+            g_defaults.dirs[DEFAULT_DIR_CONTENT_FAVORITES]);
+   if (!string_is_empty(g_defaults.dirs[DEFAULT_DIR_CONTENT_HISTORY]))
+      configuration_set_string(settings,
+            settings->paths.directory_content_history,
+            g_defaults.dirs[DEFAULT_DIR_CONTENT_HISTORY]);
+   if (!string_is_empty(g_defaults.dirs[DEFAULT_DIR_CONTENT_IMAGE_HISTORY]))
+      configuration_set_string(settings,
+            settings->paths.directory_content_image_history,
+            g_defaults.dirs[DEFAULT_DIR_CONTENT_IMAGE_HISTORY]);
+   if (!string_is_empty(g_defaults.dirs[DEFAULT_DIR_CONTENT_MUSIC_HISTORY]))
+      configuration_set_string(settings,
+            settings->paths.directory_content_music_history,
+            g_defaults.dirs[DEFAULT_DIR_CONTENT_MUSIC_HISTORY]);
+   if (!string_is_empty(g_defaults.dirs[DEFAULT_DIR_CONTENT_VIDEO_HISTORY]))
+      configuration_set_string(settings,
+            settings->paths.directory_content_video_history,
+            g_defaults.dirs[DEFAULT_DIR_CONTENT_VIDEO_HISTORY]);
 
    if (!string_is_empty(g_defaults.path_config))
    {

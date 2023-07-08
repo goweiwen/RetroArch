@@ -344,7 +344,7 @@
 #define DEFAULT_DISABLE_COMPOSITION false
 
 /* Video VSYNC (recommended) */
-#define DEFAULT_VSYNC true
+#define DEFAULT_VSYNC false
 
 /* Vulkan specific */
 #define DEFAULT_MAX_SWAPCHAIN_IMAGES 3
@@ -498,7 +498,7 @@
 #if defined(DINGUX)
 /* Enables aspect ratio correction (1:1 PAR) when
  * using the IPU hardware scaler in Dingux devices */
-#define DEFAULT_DINGUX_IPU_KEEP_ASPECT true
+#define DEFAULT_DINGUX_IPU_KEEP_ASPECT false
 /* Sets image filtering method when using the
  * IPU hardware scaler in Dingux devices */
 #if defined(RETROFW)
@@ -611,9 +611,9 @@
 #define DEFAULT_SETTINGS_SHOW_RECORDING true
 #define DEFAULT_SETTINGS_SHOW_ONSCREEN_DISPLAY true
 #define DEFAULT_SETTINGS_SHOW_USER_INTERFACE true
-#define DEFAULT_SETTINGS_SHOW_AI_SERVICE true
+#define DEFAULT_SETTINGS_SHOW_AI_SERVICE false
 #define DEFAULT_SETTINGS_SHOW_ACCESSIBILITY true
-#define DEFAULT_SETTINGS_SHOW_POWER_MANAGEMENT true
+#define DEFAULT_SETTINGS_SHOW_POWER_MANAGEMENT false
 #define DEFAULT_SETTINGS_SHOW_ACHIEVEMENTS true
 #define DEFAULT_SETTINGS_SHOW_NETWORK true
 #define DEFAULT_SETTINGS_SHOW_PLAYLISTS true
@@ -622,22 +622,22 @@
 #define DEFAULT_SETTINGS_SHOW_STEAM true
 
 #define DEFAULT_QUICK_MENU_SHOW_RESUME_CONTENT true
-#define DEFAULT_QUICK_MENU_SHOW_RESTART_CONTENT true
-#define DEFAULT_QUICK_MENU_SHOW_CLOSE_CONTENT true
+#define DEFAULT_QUICK_MENU_SHOW_RESTART_CONTENT false
+#define DEFAULT_QUICK_MENU_SHOW_CLOSE_CONTENT false
 #define DEFAULT_QUICK_MENU_SHOW_TAKE_SCREENSHOT true
 #define DEFAULT_QUICK_MENU_SHOW_SAVESTATE_SUBMENU false
-#define DEFAULT_QUICK_MENU_SHOW_SAVE_LOAD_STATE true
+#define DEFAULT_QUICK_MENU_SHOW_SAVE_LOAD_STATE false
 #define DEFAULT_QUICK_MENU_SHOW_REPLAY true
 #define DEFAULT_QUICK_MENU_SHOW_UNDO_SAVE_LOAD_STATE true
-#define DEFAULT_QUICK_MENU_SHOW_ADD_TO_FAVORITES true
-#define DEFAULT_QUICK_MENU_SHOW_START_RECORDING true
-#define DEFAULT_QUICK_MENU_SHOW_START_STREAMING true
-#define DEFAULT_QUICK_MENU_SHOW_SET_CORE_ASSOCIATION true
-#define DEFAULT_QUICK_MENU_SHOW_RESET_CORE_ASSOCIATION true
+#define DEFAULT_QUICK_MENU_SHOW_ADD_TO_FAVORITES false
+#define DEFAULT_QUICK_MENU_SHOW_START_RECORDING false
+#define DEFAULT_QUICK_MENU_SHOW_START_STREAMING false
+#define DEFAULT_QUICK_MENU_SHOW_SET_CORE_ASSOCIATION false
+#define DEFAULT_QUICK_MENU_SHOW_RESET_CORE_ASSOCIATION false
 #define DEFAULT_QUICK_MENU_SHOW_CORE_OPTIONS true
 #define DEFAULT_QUICK_MENU_SHOW_CORE_OPTIONS_FLUSH false
 #define DEFAULT_QUICK_MENU_SHOW_CONTROLS true
-#define DEFAULT_QUICK_MENU_SHOW_LATENCY true
+#define DEFAULT_QUICK_MENU_SHOW_LATENCY false
 #define DEFAULT_QUICK_MENU_SHOW_REWIND true
 #define DEFAULT_QUICK_MENU_SHOW_OVERLAYS true
 #define DEFAULT_QUICK_MENU_SHOW_VIDEO_LAYOUT false
@@ -786,8 +786,9 @@
 
 #define DEFAULT_SHOW_ADVANCED_SETTINGS true
 
-#define DEFAULT_RGUI_COLOR_THEME RGUI_THEME_CLASSIC_GREEN
-#define DEFAULT_RGUI_TRANSPARENCY true
+#define DEFAULT_RGUI_COLOR_THEME RGUI_THEME_CUSTOM
+#define DEFAULT_RGUI_THEME_PRESET "rgui/Allium.cfg"
+#define DEFAULT_RGUI_TRANSPARENCY false
 
 #define DEFAULT_RGUI_INLINE_THUMBNAILS false
 #define DEFAULT_RGUI_SWAP_THUMBNAILS false
@@ -820,8 +821,8 @@
 #define DEFAULT_GLOBAL_CORE_OPTIONS false
 #define DEFAULT_AUTO_SHADERS_ENABLE true
 
-#define DEFAULT_SORT_SAVEFILES_ENABLE false
-#define DEFAULT_SORT_SAVESTATES_ENABLE false
+#define DEFAULT_SORT_SAVEFILES_ENABLE true
+#define DEFAULT_SORT_SAVESTATES_ENABLE true
 #define DEFAULT_SORT_SAVEFILES_BY_CONTENT_ENABLE false
 #define DEFAULT_SORT_SAVESTATES_BY_CONTENT_ENABLE false
 #define DEFAULT_SORT_SCREENSHOTS_BY_CONTENT_ENABLE false
@@ -882,14 +883,14 @@
 #define DEFAULT_ALL_USERS_CONTROL_MENU false
 #endif
 
-#define DEFAULT_QUIT_PRESS_TWICE true
+#define DEFAULT_QUIT_PRESS_TWICE false
 
 #define DEFAULT_LOG_TO_FILE false
 
 #define DEFAULT_LOG_TO_FILE_TIMESTAMP false
 
 /* Crop overscanned frames. */
-#define DEFAULT_CROP_OVERSCAN true
+#define DEFAULT_CROP_OVERSCAN false
 
 /* Font size for on-screen messages. */
 #if defined(DINGUX)
@@ -907,7 +908,7 @@
 
 /* Color of the message.
  * RGB hex value. */
-#define DEFAULT_MESSAGE_COLOR 0xffff00
+#define DEFAULT_MESSAGE_COLOR 0xffffff
 
 #define DEFAULT_MESSAGE_BGCOLOR_ENABLE false
 #define DEFAULT_MESSAGE_BGCOLOR_RED 0
@@ -1011,28 +1012,28 @@
 #if defined(HAVE_LIBNX) && defined(HAVE_GFX_WIDGETS)
 #define DEFAULT_NOTIFICATION_SHOW_AUTOCONFIG false
 #else
-#define DEFAULT_NOTIFICATION_SHOW_AUTOCONFIG true
+#define DEFAULT_NOTIFICATION_SHOW_AUTOCONFIG false
 #endif
 
 /* Display a notification when cheats are being
  * applied */
-#define DEFAULT_NOTIFICATION_SHOW_CHEATS_APPLIED true
+#define DEFAULT_NOTIFICATION_SHOW_CHEATS_APPLIED false
 
 /* Display a notification when applying an
  * IPS/BPS/UPS patch file */
-#define DEFAULT_NOTIFICATION_SHOW_PATCH_APPLIED true
+#define DEFAULT_NOTIFICATION_SHOW_PATCH_APPLIED false
 
 /* Display a notification when loading an
  * input remap file */
-#define DEFAULT_NOTIFICATION_SHOW_REMAP_LOAD true
+#define DEFAULT_NOTIFICATION_SHOW_REMAP_LOAD false
 
 /* Display a notification when loading a
  * configuration override file */
-#define DEFAULT_NOTIFICATION_SHOW_CONFIG_OVERRIDE_LOAD true
+#define DEFAULT_NOTIFICATION_SHOW_CONFIG_OVERRIDE_LOAD false
 
 /* Display a notification when automatically restoring
  * at launch the last used disk of multi-disk content */
-#define DEFAULT_NOTIFICATION_SHOW_SET_INITIAL_DISK true
+#define DEFAULT_NOTIFICATION_SHOW_SET_INITIAL_DISK false
 
 /* Display a notification when fast forwarding
  * content */
@@ -1188,7 +1189,7 @@
 
 /* Saves non-volatile SRAM at a regular interval.
  * It is measured in seconds. A value of 0 disables autosave. */
-#if defined(__i386__) || defined(__i486__) || defined(__i686__) || defined(__x86_64__) || defined(_M_X64) || defined(_WIN32) || defined(OSX) || defined(ANDROID) || defined(IOS) || defined(DINGUX)
+#if defined(__i386__) || defined(__i486__) || defined(__i686__) || defined(__x86_64__) || defined(_M_X64) || defined(_WIN32) || defined(OSX) || defined(ANDROID) || defined(IOS) || (defined(DINGUX) && !defined(MIYOOMINI))
 /* Flush to file every 10 seconds on modern platforms by default */
 #define DEFAULT_AUTOSAVE_INTERVAL 10
 #else
@@ -1287,8 +1288,8 @@
  * The path is $SRAM_PATH.auto.
  * RetroArch will automatically load any savestate with this path on
  * startup if savestate_auto_load is set. */
-#define DEFAULT_SAVESTATE_AUTO_SAVE false
-#define DEFAULT_SAVESTATE_AUTO_LOAD false
+#define DEFAULT_SAVESTATE_AUTO_SAVE true
+#define DEFAULT_SAVESTATE_AUTO_LOAD true
 
 #define DEFAULT_SAVESTATE_THUMBNAIL_ENABLE false
 
@@ -1312,7 +1313,7 @@
 #define MAXIMUM_FASTFORWARD_RATIO 50.0f
 
 /* Skip frames when fast forwarding. */
-#define DEFAULT_FASTFORWARD_FRAMESKIP true
+#define DEFAULT_FASTFORWARD_FRAMESKIP false
 
 /* Enable runloop for variable refresh rate screens. Force x1 speed while handling fast forward too. */
 #define DEFAULT_VRR_RUNLOOP_ENABLE false
@@ -1329,7 +1330,7 @@
 #define DEFAULT_PREEMPT_HIDE_WARNINGS   false
 
 /* Enable stdin/network command interface. */
-#define DEFAULT_NETWORK_CMD_ENABLE false
+#define DEFAULT_NETWORK_CMD_ENABLE true
 #define DEFAULT_NETWORK_CMD_PORT 55355
 #define DEFAULT_NETWORK_REMOTE_BASE_PORT 55400
 #define DEFAULT_STDIN_CMD_ENABLE false
@@ -1578,6 +1579,8 @@
  * on OpenDingux devices */
 #if defined(DINGUX) && defined(HAVE_LIBSHAKE)
 #define DEFAULT_RUMBLE_GAIN 50
+#elif defined(MIYOOMINI)
+#define DEFAULT_RUMBLE_GAIN 20
 #else
 #define DEFAULT_RUMBLE_GAIN 100
 #endif

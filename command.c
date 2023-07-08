@@ -1924,6 +1924,7 @@ bool command_event_save_core_config(
 void command_event_save_current_config(enum override_type type)
 {
    runloop_state_t *runloop_st     = runloop_state_get_ptr();
+   settings_t      *settings       = config_get_ptr();
 
    switch (type)
    {
@@ -1946,7 +1947,8 @@ void command_event_save_current_config(enum override_type type)
                else
                   command_event_save_config(path_get(RARCH_PATH_CONFIG), msg, sizeof(msg));
 
-               runloop_msg_queue_push(msg, 1, 180, true, NULL, MESSAGE_QUEUE_ICON_DEFAULT, MESSAGE_QUEUE_CATEGORY_INFO);
+               if (settings->bools.notification_show_config_override_load)
+                  runloop_msg_queue_push(msg, 1, 180, true, NULL, MESSAGE_QUEUE_ICON_DEFAULT, MESSAGE_QUEUE_CATEGORY_INFO);
             }
          }
          break;
@@ -1977,7 +1979,8 @@ void command_event_save_current_config(enum override_type type)
             }
 
             RARCH_LOG("[Overrides]: %s\n", msg);
-            runloop_msg_queue_push(msg, 1, 180, true, NULL, MESSAGE_QUEUE_ICON_DEFAULT, MESSAGE_QUEUE_CATEGORY_INFO);
+            if (settings->bools.notification_show_config_override_load)
+               runloop_msg_queue_push(msg, 1, 180, true, NULL, MESSAGE_QUEUE_ICON_DEFAULT, MESSAGE_QUEUE_CATEGORY_INFO);
 
 #ifdef HAVE_MENU
             {

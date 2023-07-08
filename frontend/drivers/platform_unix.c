@@ -1735,6 +1735,7 @@ static void frontend_unix_get_env(int *argc,
    getcwd(base_path, sizeof(base_path));
 #elif defined(DINGUX)
    dingux_get_base_path(base_path, sizeof(base_path));
+   const char *root         = getenv("ROOT"); // Root of the SD Card (e.g. /mnt/SDCARD)
 #else
    const char *xdg          = getenv("XDG_CONFIG_HOME");
    const char *home         = getenv("HOME");
@@ -1759,7 +1760,7 @@ static void frontend_unix_get_env(int *argc,
    else
       fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_CORE], base_path,
             "cores", sizeof(g_defaults.dirs[DEFAULT_DIR_CORE]));
-#if defined(DINGUX)
+#if defined(DINGUX) && !defined(MIYOOMINI)
    /* On platforms that require manual core installation/
     * removal, placing core info files in the same directory
     * as the cores themselves makes file management highly
@@ -1867,8 +1868,8 @@ static void frontend_unix_get_env(int *argc,
             "filters/video", sizeof(g_defaults.dirs[DEFAULT_DIR_VIDEO_FILTER]));
 #endif
 
-   fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_MENU_CONFIG], base_path,
-         "config", sizeof(g_defaults.dirs[DEFAULT_DIR_MENU_CONFIG]));
+   fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_MENU_CONFIG], root,
+         "Saves/CurrentProfile/config", sizeof(g_defaults.dirs[DEFAULT_DIR_MENU_CONFIG]));
    fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_REMAP],
          g_defaults.dirs[DEFAULT_DIR_MENU_CONFIG],
          "remaps", sizeof(g_defaults.dirs[DEFAULT_DIR_REMAP]));
@@ -1888,18 +1889,34 @@ static void frontend_unix_get_env(int *argc,
          "overlay", sizeof(g_defaults.dirs[DEFAULT_DIR_OVERLAY]));
    fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_CORE_ASSETS], base_path,
          "downloads", sizeof(g_defaults.dirs[DEFAULT_DIR_CORE_ASSETS]));
-   fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_SCREENSHOT], base_path,
-         "screenshots", sizeof(g_defaults.dirs[DEFAULT_DIR_SCREENSHOT]));
+   fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_SCREENSHOT], root,
+         "Screenshots", sizeof(g_defaults.dirs[DEFAULT_DIR_SCREENSHOT]));
    fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_THUMBNAILS], base_path,
          "thumbnails", sizeof(g_defaults.dirs[DEFAULT_DIR_THUMBNAILS]));
    fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_LOGS], base_path,
          "logs", sizeof(g_defaults.dirs[DEFAULT_DIR_LOGS]));
-   fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_SRAM], base_path,
-         "saves", sizeof(g_defaults.dirs[DEFAULT_DIR_SRAM]));
-   fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_SAVESTATE], base_path,
-         "states", sizeof(g_defaults.dirs[DEFAULT_DIR_SAVESTATE]));
-   fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_SYSTEM], base_path,
-         "system", sizeof(g_defaults.dirs[DEFAULT_DIR_SYSTEM]));
+   fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_SRAM], root,
+         "Saves/CurrentProfile/saves", sizeof(g_defaults.dirs[DEFAULT_DIR_SRAM]));
+   fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_SAVESTATE], root,
+         "Saves/CurrentProfile/states", sizeof(g_defaults.dirs[DEFAULT_DIR_SAVESTATE]));
+   fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_CONTENT_FAVORITES], root,
+         "Saves/CurrentProfile/lists", sizeof(g_defaults.dirs[DEFAULT_DIR_CONTENT_FAVORITES]));
+   fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_CONTENT_HISTORY], root,
+         "Saves/CurrentProfile/lists", sizeof(g_defaults.dirs[DEFAULT_DIR_CONTENT_HISTORY]));
+   fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_CONTENT_IMAGE_HISTORY], root,
+         "Saves/CurrentProfile/lists", sizeof(g_defaults.dirs[DEFAULT_DIR_CONTENT_IMAGE_HISTORY]));
+   fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_CONTENT_MUSIC_HISTORY], root,
+         "Saves/CurrentProfile/lists", sizeof(g_defaults.dirs[DEFAULT_DIR_CONTENT_MUSIC_HISTORY]));
+   fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_CONTENT_VIDEO_HISTORY], root,
+         "Saves/CurrentProfile/lists", sizeof(g_defaults.dirs[DEFAULT_DIR_CONTENT_VIDEO_HISTORY]));
+   fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_PLAYLIST], root,
+         "Saves/CurrentProfile/lists/playlists", sizeof(g_defaults.dirs[DEFAULT_DIR_PLAYLIST]));
+   fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_REMAP], root,
+         "Saves/CurrentProfile/config/remaps", sizeof(g_defaults.dirs[DEFAULT_DIR_REMAP]));
+   fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_SYSTEM], root,
+         "BIOS", sizeof(g_defaults.dirs[DEFAULT_DIR_SYSTEM]));
+   fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_MENU_CONTENT], root,
+         "Roms", sizeof(g_defaults.dirs[DEFAULT_DIR_MENU_CONTENT]));
 #endif
 
 #ifndef IS_SALAMANDER
