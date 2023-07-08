@@ -408,6 +408,12 @@ bool command_version(command_t *cmd, const char* arg);
 bool command_get_status(command_t *cmd, const char* arg);
 bool command_get_config_param(command_t *cmd, const char* arg);
 bool command_show_osd_msg(command_t *cmd, const char* arg);
+bool command_get_disk_count(command_t *cmd, const char *arg);
+bool command_get_disk_slot(command_t *cmd, const char *arg);
+bool command_set_disk_slot(command_t *cmd, const char *arg);
+bool command_get_state_slot(command_t *cmd, const char *arg);
+bool command_set_state_slot(command_t *cmd, const char *arg);
+bool command_save_state_slot(command_t *cmd, const char *arg);
 bool command_load_state_slot(command_t *cmd, const char* arg);
 bool command_play_replay_slot(command_t *cmd, const char* arg);
 #ifdef HAVE_CHEEVOS
@@ -441,8 +447,15 @@ static const struct cmd_action_map action_map[] = {
    { "READ_CORE_MEMORY", command_read_memory,      "<address> <number of bytes>" },
    { "WRITE_CORE_MEMORY",command_write_memory,     "<address> <byte1> <byte2> ..." },
 
-   { "LOAD_STATE_SLOT",command_load_state_slot, "<slot number>"},
-   { "PLAY_REPLAY_SLOT",command_play_replay_slot, "<slot number>"},
+   { "GET_DISK_COUNT",   command_get_disk_count,   "No argument" },
+   { "GET_DISK_SLOT",    command_get_disk_slot,    "No argument" },
+   { "SET_DISK_SLOT",    command_set_disk_slot,    "<disc number>" },
+
+   { "GET_STATE_SLOT",   command_get_state_slot,   "No argument" },
+   { "SET_STATE_SLOT",   command_set_state_slot,   "<slot number>" },
+   { "SAVE_STATE_SLOT",  command_save_state_slot,  "<slot number>" },
+   { "LOAD_STATE_SLOT",  command_load_state_slot,  "<slot number>" },
+   { "PLAY_REPLAY_SLOT", command_play_replay_slot, "<slot number>" },
 };
 
 static const struct cmd_map map[] = {

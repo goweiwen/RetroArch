@@ -424,6 +424,10 @@ uint32_t runloop_get_flags(void);
 
 bool runloop_get_entry_state_path(char *path, size_t len, unsigned slot);
 
+uint32_t runloop_get_current_savestate();
+
+void runloop_set_current_savestate(int state_slot);
+
 bool runloop_get_current_savestate_path(char *path, size_t len);
 
 bool runloop_get_savestate_path(char *path, size_t len, int slot);

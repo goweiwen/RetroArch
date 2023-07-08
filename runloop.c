@@ -7195,6 +7195,18 @@ void runloop_task_msg_queue_push(
 }
 
 
+uint32_t runloop_get_current_savestate()
+{
+   settings_t *settings        = config_get_ptr();
+   return settings ? settings->ints.state_slot : 0;
+}
+
+void runloop_set_current_savestate(int state_slot)
+{
+   settings_t *settings        = config_get_ptr();
+   settings->ints.state_slot = state_slot;
+}
+
 bool runloop_get_current_savestate_path(char *path, size_t len)
 {
    settings_t *settings        = config_get_ptr();

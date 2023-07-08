@@ -681,6 +681,111 @@ bool command_show_osd_msg(command_t *cmd, const char* arg)
     return true;
 }
 
+bool command_get_disk_count(command_t *cmd, const char *arg)
+{
+   char reply[128]              = "";
+
+   runloop_state_t *runloop_st = runloop_state_get_ptr();
+   rarch_system_info_t *sys_info = runloop_st ? (rarch_system_info_t*)&runloop_st->system : NULL;
+   if (!sys_info) return false;
+
+   unsigned int disk = disk_control_get_num_images(&sys_info->disk_control);
+
+   snprintf(reply, sizeof(reply) - 1, "GET_DISK_COUNT %d", disk);
+   cmd->replier(cmd, reply, strlen(reply));
+   return true;
+}
+
+bool command_get_disk_slot(command_t *cmd, const char *arg)
+{
+   char reply[128]              = "";
+
+   runloop_state_t *runloop_st = runloop_state_get_ptr();
+   rarch_system_info_t *sys_info = runloop_st ? (rarch_system_info_t*)&runloop_st->system : NULL;
+   if (!sys_info) return false;
+
+   unsigned int disk = disk_control_get_image_index(&sys_info->disk_control);
+
+   snprintf(reply, sizeof(reply) - 1, "GET_DISK_SLOT %d", disk);
+   cmd->replier(cmd, reply, strlen(reply));
+   return true;
+}
+
+bool command_set_disk_slot(command_t *cmd, const char *arg)
+{
+   char reply[128]              = "";
+
+   runloop_state_t *runloop_st = runloop_state_get_ptr();
+   rarch_system_info_t *sys_info = runloop_st ? (rarch_system_info_t*)&runloop_st->system : NULL;
+   if (!sys_info) return false;
+
+   unsigned int disk = (unsigned int)strtoul(arg, NULL, 10);
+
+   disk_control_set_eject_state(&sys_info->disk_control, true, false);
+   disk_control_set_index(&sys_info->disk_control, disk, true);
+   disk_control_set_eject_state(&sys_info->disk_control, false, false);
+
+   snprintf(reply, sizeof(reply) - 1, "SET_DISK_SLOT %d", disk);
+   cmd->replier(cmd, reply, strlen(reply));
+   return true;
+}
+
+bool command_get_state_slot(command_t *cmd, const char *arg)
+{
+   char reply[128] = "";
+
+   bool savestates_enabled      = core_info_current_supports_savestate();
+   if (!savestates_enabled) return false;
+
+   unsigned int slot = runloop_get_current_savestate();
+
+   snprintf(reply, sizeof(reply) - 1, "GET_STATE_SLOT %d", slot);
+   cmd->replier(cmd, reply, strlen(reply));
+   return true;
+}
+
+bool command_set_state_slot(command_t *cmd, const char *arg)
+{
+   char reply[128] = "";
+   unsigned int slot = (unsigned int)strtoul(arg, NULL, 10);
+
+   bool savestates_enabled      = core_info_current_supports_savestate();
+   if (!savestates_enabled) return false;
+
+   runloop_set_current_savestate(slot);
+
+   snprintf(reply, sizeof(reply) - 1, "SET_STATE_SLOT %d", slot);
+   cmd->replier(cmd, reply, strlen(reply));
+   return true;
+}
+
+bool command_save_state_slot(command_t *cmd, const char *arg)
+{
+   char state_path[16384];
+   retro_ctx_size_info_t info;
+   char reply[128]              = "";
+   unsigned int slot            = (unsigned int)strtoul(arg, NULL, 10);
+   bool savestates_enabled      = core_info_current_supports_savestate();
+   bool ret                     = false;
+   state_path[0]                = '\0';
+   snprintf(reply, sizeof(reply) - 1, "SAVE_STATE_SLOT %d", slot);
+   if (savestates_enabled)
+   {
+      runloop_get_savestate_path(state_path, sizeof(state_path), slot);
+
+      core_serialize_size(&info);
+      savestates_enabled = (info.size > 0);
+   }
+   if (savestates_enabled)
+   {
+      ret = content_save_state(state_path, true, false);
+   }
+   else
+      ret = false;
+
+   cmd->replier(cmd, reply, strlen(reply));
+   return ret;
+}
 
 bool command_load_state_slot(command_t *cmd, const char *arg)
 {
