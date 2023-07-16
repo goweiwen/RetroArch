@@ -681,6 +681,30 @@ bool command_show_osd_msg(command_t *cmd, const char* arg)
     return true;
 }
 
+bool command_get_info(command_t *cmd, const char *arg)
+{
+   char reply[128]              = "";
+
+   runloop_state_t *runloop_st = runloop_state_get_ptr();
+   rarch_system_info_t *sys_info = runloop_st ? (rarch_system_info_t*)&runloop_st->system : NULL;
+   if (!sys_info) return false;
+
+   unsigned int disk_count = disk_control_get_num_images(&sys_info->disk_control);
+   unsigned int disk_slot = disk_control_get_image_index(&sys_info->disk_control);
+
+   bool savestates_enabled      = core_info_current_supports_savestate();
+   if (savestates_enabled) {
+      unsigned int state_slot = runloop_get_current_savestate();
+      snprintf(reply, sizeof(reply) - 1, "GET_INFO %d %d %d", disk_count, disk_slot, state_slot);
+   } else {
+      snprintf(reply, sizeof(reply) - 1, "GET_INFO %d %d NO", disk_count, disk_slot);
+   }
+
+   cmd->replier(cmd, reply, strlen(reply));
+   return true;
+
+}
+
 bool command_get_disk_count(command_t *cmd, const char *arg)
 {
    char reply[128]              = "";

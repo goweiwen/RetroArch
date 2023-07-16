@@ -408,6 +408,7 @@ bool command_version(command_t *cmd, const char* arg);
 bool command_get_status(command_t *cmd, const char* arg);
 bool command_get_config_param(command_t *cmd, const char* arg);
 bool command_show_osd_msg(command_t *cmd, const char* arg);
+bool command_get_info(command_t *cmd, const char* arg);
 bool command_get_disk_count(command_t *cmd, const char *arg);
 bool command_get_disk_slot(command_t *cmd, const char *arg);
 bool command_set_disk_slot(command_t *cmd, const char *arg);
@@ -447,6 +448,7 @@ static const struct cmd_action_map action_map[] = {
    { "READ_CORE_MEMORY", command_read_memory,      "<address> <number of bytes>" },
    { "WRITE_CORE_MEMORY",command_write_memory,     "<address> <byte1> <byte2> ..." },
 
+   { "GET_INFO",         command_get_info,         "No argument" },
    { "GET_DISK_COUNT",   command_get_disk_count,   "No argument" },
    { "GET_DISK_SLOT",    command_get_disk_slot,    "No argument" },
    { "SET_DISK_SLOT",    command_set_disk_slot,    "<disc number>" },
