@@ -6210,14 +6210,14 @@ static enum runloop_state_enum runloop_check_state(
       if (!check2)
          check2 = old_hold_button_state != new_hold_button_state;
 
-      /* Don't allow fastmotion while paused */
-      if (runloop_paused)
-      {
-         check2                = true;
-         new_button_state      = false;
-         new_hold_button_state = false;
-         input_st->flags      |= INP_FLAG_NONBLOCKING;
-      }
+      // /* Don't allow fastmotion while paused */
+      // if (runloop_paused)
+      // {
+      //    check2                = true;
+      //    new_button_state      = false;
+      //    new_hold_button_state = false;
+      //    input_st->flags      |= INP_FLAG_NONBLOCKING;
+      // }
 
       if (check2)
       {
