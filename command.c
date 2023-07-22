@@ -681,6 +681,20 @@ bool command_show_osd_msg(command_t *cmd, const char* arg)
     return true;
 }
 
+bool command_pause(command_t *cmd, const char* arg)
+{
+   runloop_state_t *runloop_st = runloop_state_get_ptr();
+   runloop_st->flags |= RUNLOOP_FLAG_PAUSED;
+   return true;
+}
+
+bool command_unpause(command_t *cmd, const char* arg)
+{
+   runloop_state_t *runloop_st = runloop_state_get_ptr();
+   runloop_st->flags &= ~RUNLOOP_FLAG_PAUSED;
+   return true;
+}
+
 bool command_get_info(command_t *cmd, const char *arg)
 {
    char reply[128]              = "";
